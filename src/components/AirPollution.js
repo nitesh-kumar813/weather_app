@@ -35,19 +35,19 @@ function AirPollution({ lat, lon }) {
               <div className="bg-gree-400 w-full h-auto ml-5 flex flex-row justify-evenly">
                 <div className="h-full w-fit flex flex-col items-center">
                   <span className="text-xs text-[#767676]">PM25</span>
-                  <span className="text-xl mt-1">{pollutionData?.list[0].components.pm2_5.toFixed(1)}</span>
+                  <span className="text-base md:text-xl mt-1">{pollutionData?.list[0].components.pm2_5.toFixed(1)}</span>
                 </div>
                 <div className="h-full w-fit flex flex-col items-center">
                   <span className="text-xs text-[#767676]">SO2</span>
-                  <span className="text-xl mt-1">{pollutionData?.list[0].components.so2.toFixed(1)}</span>
+                  <span className="text-base md:text-xl  mt-1">{pollutionData?.list[0].components.so2.toFixed(1)}</span>
                 </div>
                 <div className="h-full w-fit flex flex-col items-center">
                   <span className="text-xs text-[#767676]">NO2</span>
-                  <span className="text-xl mt-1">{pollutionData?.list[0].components.no2.toFixed(1)}</span>
+                  <span className="text-base md:text-xl  mt-1">{pollutionData?.list[0].components.no2.toFixed(1)}</span>
                 </div>
                 <div className="h-full w-fit flex flex-col items-center">
                   <span className="text-xs text-[#767676]">O3</span>
-                  <span className="text-xl mt-1">{pollutionData?.list[0].components.o3.toFixed(1)}</span>
+                  <span className="text-base md:text-xl  mt-1">{pollutionData?.list[0].components.o3.toFixed(1)}</span>
                 </div>
               </div>
             </div>
@@ -56,4 +56,4 @@ function AirPollution({ lat, lon }) {
   )
 }
 
-export default AirPollution
+export default AirPollution;
