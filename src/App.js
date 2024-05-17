@@ -1,24 +1,20 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import Inputs from "./components/Inputs";
+import Hero from './components/Hero'
 
 function App() {
+  const [query, setQuery] = useState({ q: "Delhi" }); 
+
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <>
+      <div
+      className="w-screen h-screen bg-zinc-900 flex flex-col  justify-start  text-white  ">
+        <Inputs setQuery={setQuery} />
+        <Hero query={query} />
     </div>
+    </> 
   );
 }
 
