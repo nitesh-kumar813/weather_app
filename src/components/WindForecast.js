@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { FaLocationArrow } from "react-icons/fa";
 
-const API_KEY = "cd531621cd2a52a0fb96bf76ac1464b7";
+const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
 
-function WindForecast({ city, lat, lon }) {
+
+function WindForecast({ city, lat, lon, unit }) {
   const [forecastData, setForecastData] = useState([]);
 
   useEffect(() => {
@@ -47,6 +48,10 @@ function WindForecast({ city, lat, lon }) {
     return `${hours} ${ampm}`;
   };
 
+  const convertWindSpeed = (speed) => {
+    return unit === "C" ? Math.round(speed * 3.6) : Math.round(speed * 2.237); // Convert m/s to km/h or mph
+  };
+
   return (
     <>
       <div className="w-[84%] md:w-full lg:w-full h-auto bg-[#2d2c2c74] p-4 rounded-[20px] mt-4">
@@ -63,7 +68,8 @@ function WindForecast({ city, lat, lon }) {
                 className=" text-blue-600"
               />
               <span className="my-3 ">
-                {Math.round(item.wind.speed * 3.6)} km/h
+                
+                {convertWindSpeed(item.wind.speed)} {unit === "C" ? "km/h" : "mph"}
               </span>
             </div>
           ))}

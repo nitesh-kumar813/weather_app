@@ -6,9 +6,10 @@ import { MdOutlineVisibility } from "react-icons/md";
 import { BsThermometerSun } from "react-icons/bs";
 import AirPollution from "./AirPollution";
 
-const API_KEY = "cd531621cd2a52a0fb96bf76ac1464b7";
+const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
 
-function TodaysForecast({ city, lat, lon }) {
+
+function TodaysForecast({ city, lat, lon, unit }) {
   const [weatherData, setWeatherData] = useState(null);
 
   useEffect(() => {
@@ -47,20 +48,24 @@ function TodaysForecast({ city, lat, lon }) {
     return (visibility / 1000).toFixed(1);
   };
 
+  const convertTemperature = (tempCelsius) => {
+    return unit === "C" ? tempCelsius : (tempCelsius * 9/5) + 32;
+  };
+
   return (
     <div className="w-[85%] p-4 md:w-full lg:w-full h-auto lg:h-auto bg-[#2d2c2c74] rounded-[20px] flex flex-col justify-center items-center">
       <span className="w-[95%] mb-4 text-lg">Today's Highlights</span>
       <div className="w-[95%]">
         {/* Upper div */}
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-          <AirPollution lat={weatherData?.coord.lat} lon={weatherData?.coord.lon}/>
+          <AirPollution lat={weatherData?.coord.lat} lon={weatherData?.coord.lon} />
           <div className="rounded-lg bg-[#12111174] p-5">
             <span className="w-fit text-[#767676]">Sunrise & Sunset</span>
             <div className="bg-gree-400 h-auto w-full flex flex-row mt-5 justify-evenly">
               <div className="bg-re-400 flex flex-row ml-3 items-center w-[40%]">
-                <BsSun size={40} />
+                <BsSun size={40} className="text-yellow-300" />
                 <div className="h-full w-fit ml-5 flex flex-col items-start">
-                  <span className="text-xs text-[#767676]">Sunrise</span>
+                  <span className="text-xs text-[#767676] ">Sunrise</span>
                   <span className="text-2xl mt-1">
                     {weatherData ? formatTime(weatherData.sys.sunrise) : "-"}
                   </span>
@@ -84,14 +89,14 @@ function TodaysForecast({ city, lat, lon }) {
           <div className="rounded-lg bg-[#12111174] p-4">
             <span className="w-fit text-[#767676]">Humidity</span>
             <div className=" flex flex-row mx-5 items-center justify-between mt-5">
-              <WiHumidity size={40} />
+              <WiHumidity size={40} className="text-cyan-200"/>
               <span className="h-full w-fit ml-5 text-2xl">{weatherData?.main.humidity}%</span>
             </div>
           </div>
           <div className="rounded-lg bg-[#12111174] p-4">
             <span className="w-fit text-[#767676]">Wind Speed</span>
             <div className=" flex flex-row mx-5 items-center justify-between mt-5">
-              <PiWavesBold size={40} />
+              <PiWavesBold size={40} className="text-sky-300"/>
               <span className="h-full w-fit ml-5 text-2xl">
                 {weatherData?.wind.speed.toFixed(0)}km/h
               </span>
@@ -111,7 +116,7 @@ function TodaysForecast({ city, lat, lon }) {
             <div className=" flex flex-row mx-5 items-center justify-between mt-5">
               <BsThermometerSun size={40} />
               <span className="h-full w-fit ml-5 text-2xl">
-                {weatherData?.main.feels_like.toFixed(0)}&deg;C
+              {weatherData ? `${Math.round(convertTemperature(weatherData.main.feels_like))}°${unit}` : "-"}
               </span>
             </div>
           </div>

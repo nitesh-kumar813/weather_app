@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { LuWind } from "react-icons/lu";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { fetchWeatherData }  from '../utils/utils';
 
 function AirPollution({ lat, lon }) {
     const [pollutionData, setPollutionData] = useState(null);
-    const API_KEY = "cd531621cd2a52a0fb96bf76ac1464b7";
+    const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
+
     
     const defaultData = {
         list: [{
@@ -18,18 +22,16 @@ function AirPollution({ lat, lon }) {
 
     useEffect(() => {
         const fetchPollutionData = async () => {
+           
             try {
-                const response = await fetch(
-                    `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
-                );
-                if (!response.ok) {
-                    throw new Error("Failed to fetch pollution data");
-                }
-                const data = await response.json();
-                setPollutionData(data);
+                const apiUrl = `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`;    
+                const data = await fetchWeatherData(apiUrl);
+                setPollutionData(data); 
+                toast.success("Air pollution data loaded successfully.");
             } catch (error) {
-                console.error("Error fetching pollution data: ", error);
-                setPollutionData(defaultData);
+                console.error("Error fetching air pollution data:", error.message);
+                setPollutionData(defaultData); 
+                toast.error(error.message || "Failed to fetch air pollution data. Showing default values.");
             }
         };
 
